@@ -1,0 +1,121 @@
+body {
+    align-content: center;
+    font-family: Arial, sans-serif;
+    max-width: none;
+    margin: 25px auto;
+    padding: 0 15px;
+    color: sandybrown;
+    background: #445760;
+}
+/*Title*/
+header {
+    text-align: center;
+    font-size: 24px;
+    max-width: none;
+    margin: 0px;
+    background: #2B373D;
+    padding: 0px;
+}
+/*Login form and creits*/
+main, footer {
+    align-content: center;
+    max-width: 800px;
+    background: #2B373D;
+    padding: 20px;
+    margin: 0 auto 20px;
+    border: 1px solid sandybrown;
+}
+
+h1 {
+    color: sandybrown;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+input, select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-top: 4px;
+    color: sandybrown;
+    background: #445760;
+    border: 1px solid sandybrown;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 5px 5px 5px 0;
+    cursor: pointer;
+    color: sandybrown;
+    background: #445760;
+    border: 1px solid sandybrown;
+}
+
+.buttons, .top-row, .filters {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+}
+
+.summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+    .summary p, .transaction {
+        color: sandybrown;
+        background: #445760;
+        border: 1px solid sandybrown;
+        padding: 10px;
+    }
+
+.box {
+    border-top: 1px solid sandybrown;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.transaction h4 {
+    margin: 0 0 5px;
+}
+
+.transaction p {
+    margin: 5px 0;
+}
+
+.bar {
+    height: 18px;
+    border: 1px solid sandybrown;
+    background: #445760;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: sandybrown;
+}
+
+.message {
+    color: #ffb3a7;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 520px) {
+    .top-row, .filters {
+        display: block;
+    }
+
+    .summary {
+        display: block;
+    }
+}

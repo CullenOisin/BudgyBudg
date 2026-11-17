@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BudgyBudg</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>BudgyBudg</h1>
+    <p>Track your money and save!</p>
+  </header>
+
+  <main>
+    <section id="start">
+    <h2>Welcome</h2>
+    <p>Put in you username to start.</p>
+    <form id="startForm">
+        <label>Username <input id="username" required minlength="3" maxlength="30"></label>
+        <div class="buttons">
+          <button type="submit" id="login">Log in</button>
+        </div>
+      </form>
+      <p id="authMessage" class="message"></p>
+    </section>
+
+    <section id="dashboard" hidden>
+    <div class="top-row">
+    h2>Hello, <span id="current-user"></span></h2>
+    <button id="logout-button" type="button">Log out</button>
+      </div>
+
+      <h3>This month</h3>
+      <div class="summary">
+      <p>Income: <strong id="income-total">$0.00</strong></p>
+      <p>Expenses: <strong id="expense-total">$0.00</strong></p>
+      <p>Left over: <strong id="net-total">$0.00</strong></p>
+      </div>
+
+      <section class="box">
+        <h3>My savings goal</h3>
+        <form id="goal-form">
+        <label>What are you saving for? <input id="goal-name" maxlength="50" required></label>
+        <label>How much does it cost? <input id="goal-target" type="number" min="0.01" step="0.01" required></label>
+        <label>Percent of income to save each month <input id="goal-percent" type="number" min="1" max="100" value="20" required></label>
+        <button type="submit">Save goal</button>
+        </form>
+        <p id="goal-progress-text">Set a goal to see your progress.</p>
+        <div class="bar"><div id="progress-bar"></div></div>
+        <p id="goal-message" class="message"></p>
+      </section>
+
+      <section class="box">
+        <h3>Add or change a transaction</h3>
+        <form id="transaction-form">
+          <label>Type
+          <select id="transaction-type"><option value="expense">Expense</option><option value="income">Income</option></select>
+          </label>
+          <label>Amount <input id="transaction-amount" type="number" min="0.01" step="0.01" required></label>
+          <label>What was it? <input id="transaction-description" maxlength="80" required></label>
+          <label>Category <input id="transaction-category" maxlength="30" placeholder="Food, rent, pay..." required></label>
+          <label>Date <input id="transaction-date" type="date" required></label>
+          <div class="buttons">
+          <button id="transaction-save" type="submit">Add transaction</button>
+          <button id="cancel-edit" type="button" hidden>Cancel edit</button>
+          </div>
+        </form>
+        <p id="transaction-message" class="message"></p>
+      </section>
+
+      <section class="box">
+        <h3>Transactions</h3>
+        <div class="filters">
+       <label>Find <input id="search" placeholder="Search description"></label>
+       <label>Category <select id="category-filter"><option value="">All categories</option></select></label>
+        </div>
+        <div id="transaction-list"></div>
+      </section>
+    </section>
+  </main>
+  <footer><p>by Sahara Hassanabadi & Oisin Cullen</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>
