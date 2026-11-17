@@ -8,14 +8,14 @@ Skips banks , subscriptions, paid features, and advisors.
 ### 
 Lot's of influence from Jasleenkour002 on github, https://github.com/Jasleenkour002/Expense-Tracker
 
-####C Current problems
+**Current problems**
 
-no login password with hash
+- [ ]no login password with hash
 
-no make new account
+- [ ]no make new account
 
-no hidden private data for transactions and goals
+- [ ]no hidden private data for transactions and goals
 
-goals isn't in app or server so button on webpage doesnt do anything.
+- [ ]goals isn't in app or server so button on webpage doesnt do anything.
 
 Running Link: https://budgybudg.onrender.com/
