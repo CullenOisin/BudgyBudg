@@ -57,4 +57,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Server is live at http://localhost:${PORT}`);
   console.log(`ℹ️ Frontend: http://localhost:${PORT}`);
-  console.log(`ℹ️ Database: Local JSON file (No MongoDB needed!)`);
+   console.log(`ℹ️ Database: Local JSON file (No MongoDB needed!)`);
+});
