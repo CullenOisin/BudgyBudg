@@ -1,4 +1,4 @@
-# BudgyBudg
+# BudgyBud ☑️Running Link: https://budgybudg.onrender.com/
 A expense tracker application 
 
 ## Scope
