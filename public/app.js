@@ -1,6 +1,6 @@
 const $ = (id) => document.getElementById(id);
 let transactions = [];
-
+//sends request to server
 async function api(url, options = {}) {
   const response = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
@@ -8,11 +8,11 @@ async function api(url, options = {}) {
   });
   return response.json();
 }
-
+//formats the number as $n
 function money(amount) {
   return '$' + Number(amount).toFixed(2);
 }
-
+//Logging in the user
 async function signIn(register) {
   const action = register ? 'register' : 'login';
   await api('/api/' + action, {
@@ -21,19 +21,19 @@ async function signIn(register) {
   });
   loadPage();
 }
-
+//does the login form
 $('startForm').addEventListener('submit', (event) => {
   event.preventDefault();
   signIn(false);
 });
 
-
+//does logout
 $('logout-button').addEventListener('click', async () => {
   await api('/api/logout', { method: 'POST' });
   $('dashboard').hidden = true;
   $('start').hidden = false;
 });
-
+//After login loads user data and shows the hidden dashboard
 async function loadPage() {
   const user = await api('/api/me');
   transactions = await api('/api/transactions');
@@ -47,7 +47,7 @@ async function loadPage() {
   $('dashboard').hidden = false;
   showTransactions();
 }
-
+//saves a transaction that was inputted
 $('transaction-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   await api('/api/transactions', {
@@ -64,7 +64,7 @@ $('transaction-form').addEventListener('submit', async (event) => {
   $('transaction-date').value = new Date().toISOString().slice(0, 10);
   loadPage();
 });
-
+//displays transactions put in
 function showTransactions() {
   const list = $('transaction-list');
   list.replaceChildren();
@@ -74,9 +74,9 @@ function showTransactions() {
     list.appendChild(row);
   });
 }
-
+//puts today as the default for inputting a new transaction
 $('transaction-date').value = new Date().toISOString().slice(0, 10);
-
+//Will show the dashboard if a user is already signed in
 api('/api/me').then((user) => {
   if (user.username) loadPage();
 });
