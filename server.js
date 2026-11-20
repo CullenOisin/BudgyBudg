@@ -30,9 +30,12 @@ function save(data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 function readUsers() {
+ if (!fs.existsSync(usersFile)) {
+    fs.writeFileSync(usersFile, '[]');
+  }
+
   return JSON.parse(fs.readFileSync(usersFile, 'utf8'));
 }
-
 function saveUsers(users) {
   fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
 }
