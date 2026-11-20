@@ -1,12 +1,21 @@
 const $ = (id) => document.getElementById(id);
 let transactions = [];
+let editingTransactionId = null;
+let isRegistering = false;
 
 async function api(url, options = {}) {
   const response = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     ...options
   });
-  return response.json();
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Something went wrong.');
+  }
+
+  return data;
 }
 
 function money(amount) {
@@ -15,18 +24,65 @@ function money(amount) {
 
 async function signIn(register) {
   const action = register ? 'register' : 'login';
-  await api('/api/' + action, {
-    method: 'POST',
-    body: JSON.stringify({ username: $('username').value })
-  });
-  loadPage();
+
+  $('authMessage').textContent = '';
+
+  try {
+    await api('/api/' + action, {
+      method: 'POST',
+      body: JSON.stringify({
+        username: $('username').value,
+        password: $('password').value
+      })
+    });
+
+    $('password').value = '';
+
+    await loadPage();
+
+  } catch (error) {
+    $('authMessage').textContent = error.message;
+  }
 }
 
 $('startForm').addEventListener('submit', (event) => {
   event.preventDefault();
-  signIn(false);
+  signIn(isRegistering);
+});
+$('auth-switch').addEventListener('click', () => {
+  isRegistering = !isRegistering;
+
+  $('auth-description').textContent = isRegistering
+    ? 'Sign up to start managing your money.'
+    : 'Log in to manage your money and reach your goals.';
+
+  $('auth-submit').textContent = isRegistering
+    ? 'Create account'
+    : 'Log in';
+
+  $('auth-switch-text').textContent = isRegistering
+    ? 'Already have an account?'
+    : "Don't have an account?";
+
+  $('auth-switch').textContent = isRegistering
+    ? 'Log in'
+    : 'Create account';
+
+  $('password').value = '';
+  $('authMessage').textContent = '';
 });
 
+$('toggle-password').addEventListener('click', () => {
+  const password = $('password');
+
+  if (password.type === 'password') {
+    password.type = 'text';
+    $('toggle-password').textContent = 'Hide';
+  } else {
+    password.type = 'password';
+    $('toggle-password').textContent = 'Show';
+  }
+});
 
 $('logout-button').addEventListener('click', async () => {
   await api('/api/logout', { method: 'POST' });
@@ -50,8 +106,14 @@ async function loadPage() {
 
 $('transaction-form').addEventListener('submit', async (event) => {
   event.preventDefault();
-  await api('/api/transactions', {
-    method: 'POST',
+  const isEditing = editingTransactionId !== null;
+
+await api(
+  isEditing
+    ? '/api/transactions/' + editingTransactionId
+    : '/api/transactions',
+  {
+    method: isEditing ? 'PUT' : 'POST',
     body: JSON.stringify({
       type: $('transaction-type').value,
       amount: $('transaction-amount').value,
@@ -59,7 +121,11 @@ $('transaction-form').addEventListener('submit', async (event) => {
       category: $('transaction-category').value,
       date: $('transaction-date').value
     })
-  });
+  }
+);
+editingTransactionId = null;
+$('transaction-save').textContent = 'Save Transaction';
+$('cancel-edit').hidden = true;
   $('transaction-form').reset();
   $('transaction-date').value = new Date().toISOString().slice(0, 10);
   loadPage();
@@ -68,10 +134,52 @@ $('transaction-form').addEventListener('submit', async (event) => {
 function showTransactions() {
   const list = $('transaction-list');
   list.replaceChildren();
+
   transactions.forEach((item) => {
-    const row = document.createElement('p');
-    row.textContent = item.date + ' | ' + item.type + ' | ' + item.category + ' | ' + item.description + ' | ' + money(item.amount);
+    const row = document.createElement('div');
+    row.className = 'transaction-row';
+
+    const details = document.createElement('p');
+    details.textContent =
+      item.date + ' | ' +
+      item.type + ' | ' +
+      item.category + ' | ' +
+      item.description + ' | ' +
+      money(item.amount);
+
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.type = 'button';
+    editButton.addEventListener('click', () => editTransaction(item.id));
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.type = 'button';
+    deleteButton.addEventListener('click', () => deleteTransaction(item.id));
+
+    row.append(details, editButton, deleteButton);
     list.appendChild(row);
+  });
+}
+function editTransaction(id) {
+  const item = transactions.find((transaction) => transaction.id === id);
+
+  if (!item) return;
+
+  editingTransactionId = id;
+
+  $('transaction-type').value = item.type;
+  $('transaction-amount').value = item.amount;
+  $('transaction-description').value = item.description;
+  $('transaction-category').value = item.category;
+  $('transaction-date').value = item.date;
+
+  $('transaction-save').textContent = 'Update Transaction';
+  $('cancel-edit').hidden = false;
+
+  $('transaction-form').scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
   });
 }
 

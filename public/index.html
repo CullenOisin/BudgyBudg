@@ -13,30 +13,81 @@
   </header>
 
   <main>
-    <section id="start">
-    <h2>Welcome</h2>
-    <p>Put in you username to start.</p>
+    <section id="start" class="auth-section">
+      <h2 class="welcome-heading">WELCOME TO BUDGYBUDG</h2>
+  <div class="auth-card">
+
+    <p style="text-align: center;" id="auth-description">Log in to manage your money <br>and reach your goals.</p>
+
     <form id="startForm">
-        <label>Username <input id="username" required minlength="3" maxlength="30"></label>
-        <div class="buttons">
-          <button type="submit" id="login">Log in</button>
-        </div>
-      </form>
-      <p id="authMessage" class="message"></p>
-    </section>
+
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        placeholder="Enter your username"
+        minlength="3"
+        maxlength="30"
+        autocomplete="username"
+        required
+      >
+
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        >
+        <button type="button" id="toggle-password">Show</button>
+      </div>
+
+      <button type="submit" id="auth-submit" class="primary-button">
+        Log in
+      </button>
+
+    </form>
+
+    <p id="authMessage" class="message"></p>
+
+    <div class="auth-switch">
+      <span id="auth-switch-text">Don't have an account?</span>
+      <button type="button" id="auth-switch">Create account</button>
+    </div>
+
+  </div>
+</section>
 
     <section id="dashboard" hidden>
     <div class="top-row">
-    h2>Hello, <span id="current-user"></span></h2>
-    <button id="logout-button" type="button">Log out</button>
-      </div>
+  <div>
+    <p class="eyebrow">YOUR FINANCIAL OVERVIEW</p>
+    <h2>Hello, <span id="current-user"></span>!</h2>
+  </div>
+  <button id="logout-button" type="button" class="secondary-button">Log out</button>
+</div>
 
       <h3>This month</h3>
       <div class="summary">
-      <p>Income: <strong id="income-total">$0.00</strong></p>
-      <p>Expenses: <strong id="expense-total">$0.00</strong></p>
-      <p>Left over: <strong id="net-total">$0.00</strong></p>
-      </div>
+
+  <div class="summary-card income-card">
+    <p>Total income</p>
+    <strong id="income-total">$0.00</strong>
+  </div>
+
+  <div class="summary-card expense-card">
+    <p>Total expenses</p>
+    <strong id="expense-total">$0.00</strong>
+  </div>
+
+  <div class="summary-card balance-card">
+    <p>Remaining balance</p>
+    <strong id="net-total">$0.00</strong>
+  </div>
+
+</div>
 
       <section class="box">
         <h3>My savings goal</h3>
@@ -79,7 +130,7 @@
       </section>
     </section>
   </main>
-  <footer><p>by Sahara Hassanabadi & Oisin Cullen</p></footer>
+  <footer><p>by Sahar Hassanabadi & Oisin Cullen</p></footer>
   <script src="app.js"></script>
 </body>
 </html>

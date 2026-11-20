@@ -1,33 +1,36 @@
 body {
-    align-content: center;
     font-family: Arial, sans-serif;
-    max-width: none;
-    margin: 25px auto;
-    padding: 0 15px;
-    color: sandybrown;
-    background: #445760;
+    margin: 0;
+    padding: 25px 20px;
+    color: #29352f;
+    background: #f5f5ef;
 }
 /*Title*/
 header {
     text-align: center;
-    font-size: 24px;
-    max-width: none;
-    margin: 0px;
-    background: #2B373D;
-    padding: 0px;
+    margin-bottom: 5px;
+    padding: 8px 15px;
+    background: transparent;
+    font-size: 18px;
 }
 /*Login form and creits*/
-main, footer {
-    align-content: center;
-    max-width: 800px;
-    background: #2B373D;
-    padding: 20px;
-    margin: 0 auto 20px;
-    border: 1px solid sandybrown;
+main {
+    max-width: 1050px;
+    margin: 0 auto 30px;
+    padding: 10px 25px 25px;
 }
 
-h1 {
-    color: sandybrown;
+footer {
+    text-align: center;
+    color: #89928c;
+    font-size: 13px;
+}
+
+header h1 {
+    color: #254b3c;
+    font-size: 44px;
+    font-weight: 800;
+    margin-bottom: 8px;
 }
 
 label {
@@ -40,20 +43,44 @@ input, select {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    padding: 8px;
-    margin-top: 4px;
-    color: sandybrown;
-    background: #445760;
-    border: 1px solid sandybrown;
+    padding: 12px;
+    margin-top: 6px;
+    color: #29352f;
+    background: #fafbf8;
+    border: 1px solid #dce3dc;
+    border-radius: 8px;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: #6c987e;
 }
 
 button {
-    padding: 8px 12px;
+    padding: 11px 16px;
     margin: 5px 5px 5px 0;
     cursor: pointer;
-    color: sandybrown;
-    background: #445760;
-    border: 1px solid sandybrown;
+    border-radius: 8px;
+    border: 1px solid #dce3dc;
+    background: white;
+    color: #254b3c;
+}
+
+.primary-button {
+    background: #285b45;
+    color: white;
+    border: none;
+    width: 100%;
+    margin-top: 18px;
+}
+
+.primary-button:hover {
+    background: #1e4937;
+}
+
+.secondary-button {
+    background: #edf2ed;
+    border: none;
 }
 
 .buttons, .top-row, .filters {
@@ -118,4 +145,75 @@ button {
     .summary {
         display: block;
     }
+}
+
+/* Authentication */
+
+.auth-section {
+    max-width: 430px;
+    width: 90%;
+    margin: 15px auto 40px;
+}
+
+.auth-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 16px;
+    border: 1px solid #e6e9e3;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+}
+
+.eyebrow {
+    color: #6c987e;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.auth-card p {
+    color: #78847c;
+}
+
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.password-wrapper input {
+    flex: 1;
+    min-width: 0;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Compact login form */
+
+#start form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#start form input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#start .primary-button {
+    width: 100%;
+}
+/* Welcome heading above login card */
+.welcome-heading {
+    text-align: center;
+    color: #254b3c;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 15px;
 }

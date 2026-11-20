@@ -6,5 +6,21 @@
     "category": "paystub",
     "date": "2026-11-17",
     "username": "Sheev5941"
+  },
+  {
+    "type": "income",
+    "amount": "2500",
+    "description": "salary",
+    "category": "food",
+    "date": "2026-11-17",
+    "username": "saharh"
+  },
+  {
+    "type": "expense",
+    "amount": "300",
+    "description": "bag",
+    "category": "shopping",
+    "date": "2026-11-17",
+    "username": "saharh"
   }
 ]
