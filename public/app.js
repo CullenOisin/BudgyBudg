@@ -8,25 +8,19 @@ async function api(url, options = {}) {
     headers: { 'Content-Type': 'application/json' },
     ...options
   });
-
   const data = await response.json();
-
   if (!response.ok) {
     throw new Error(data.error || 'Something went wrong.');
   }
-
   return data;
 }
-
+//formats the number as $n
 function money(amount) {
   return '$' + Number(amount).toFixed(2);
 }
-
+//Logging in the user
 async function signIn(register) {
   const action = register ? 'register' : 'login';
-
-  $('authMessage').textContent = '';
-
   try {
     await api('/api/' + action, {
       method: 'POST',
@@ -35,16 +29,12 @@ async function signIn(register) {
         password: $('password').value
       })
     });
-
-    $('password').value = '';
-
     await loadPage();
-
   } catch (error) {
     $('authMessage').textContent = error.message;
   }
 }
-
+//does the login form
 $('startForm').addEventListener('submit', (event) => {
   event.preventDefault();
   signIn(isRegistering);
@@ -74,22 +64,18 @@ $('auth-switch').addEventListener('click', () => {
 
 $('toggle-password').addEventListener('click', () => {
   const password = $('password');
-
-  if (password.type === 'password') {
-    password.type = 'text';
-    $('toggle-password').textContent = 'Hide';
-  } else {
-    password.type = 'password';
-    $('toggle-password').textContent = 'Show';
-  }
+  const showing = password.type === 'text';
+  password.type = showing ? 'password' : 'text';
+  $('toggle-password').textContent = showing ? 'Show' : 'Hide';
 });
 
+//does logout
 $('logout-button').addEventListener('click', async () => {
   await api('/api/logout', { method: 'POST' });
   $('dashboard').hidden = true;
   $('start').hidden = false;
 });
-
+//After login loads user data and shows the hidden dashboard
 async function loadPage() {
   const user = await api('/api/me');
   transactions = await api('/api/transactions');
@@ -103,34 +89,67 @@ async function loadPage() {
   $('dashboard').hidden = false;
   showTransactions();
 }
-
+//saves a transaction that was inputted
 $('transaction-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   const isEditing = editingTransactionId !== null;
 
-await api(
-  isEditing
-    ? '/api/transactions/' + editingTransactionId
-    : '/api/transactions',
-  {
-    method: isEditing ? 'PUT' : 'POST',
-    body: JSON.stringify({
-      type: $('transaction-type').value,
-      amount: $('transaction-amount').value,
-      description: $('transaction-description').value,
-      category: $('transaction-category').value,
-      date: $('transaction-date').value
-    })
+  try {
+    await api(
+      isEditing
+        ? '/api/transactions/' + editingTransactionId
+        : '/api/transactions',
+      {
+        method: isEditing ? 'PUT' : 'POST',
+        body: JSON.stringify({
+          type: $('transaction-type').value,
+          amount: $('transaction-amount').value,
+          description: $('transaction-description').value,
+          category: $('transaction-category').value,
+          date: $('transaction-date').value
+        })
+      }
+    );
+    resetTransactionForm();
+    await loadPage();
+  } catch (error) {
+    $('transaction-message').textContent = error.message;
   }
-);
-editingTransactionId = null;
-$('transaction-save').textContent = 'Save Transaction';
-$('cancel-edit').hidden = true;
-  $('transaction-form').reset();
-  $('transaction-date').value = new Date().toISOString().slice(0, 10);
-  loadPage();
 });
 
+function resetTransactionForm() {
+  editingTransactionId = null;
+  $('transaction-save').textContent = 'Add transaction';
+  $('cancel-edit').hidden = true;
+  $('transaction-form').reset();
+  $('transaction-date').value = new Date().toISOString().slice(0, 10);
+}
+
+function editTransaction(id) {
+  const item = transactions.find((transaction) => transaction.id === id);
+  if (!item) return;
+
+  editingTransactionId = id;
+  $('transaction-type').value = item.type;
+  $('transaction-amount').value = item.amount;
+  $('transaction-description').value = item.description;
+  $('transaction-category').value = item.category;
+  $('transaction-date').value = item.date;
+  $('transaction-save').textContent = 'Save transaction';
+  $('cancel-edit').hidden = false;
+}
+
+async function deleteTransaction(id) {
+  try {
+    await api('/api/transactions/' + id, { method: 'DELETE' });
+    await loadPage();
+  } catch (error) {
+    $('transaction-message').textContent = error.message;
+  }
+}
+
+$('cancel-edit').addEventListener('click', resetTransactionForm);
+//displays transactions put in
 function showTransactions() {
   const list = $('transaction-list');
   list.replaceChildren();
@@ -161,30 +180,9 @@ function showTransactions() {
     list.appendChild(row);
   });
 }
-function editTransaction(id) {
-  const item = transactions.find((transaction) => transaction.id === id);
-
-  if (!item) return;
-
-  editingTransactionId = id;
-
-  $('transaction-type').value = item.type;
-  $('transaction-amount').value = item.amount;
-  $('transaction-description').value = item.description;
-  $('transaction-category').value = item.category;
-  $('transaction-date').value = item.date;
-
-  $('transaction-save').textContent = 'Update Transaction';
-  $('cancel-edit').hidden = false;
-
-  $('transaction-form').scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
-  });
-}
-
+//puts today as the default for inputting a new transaction
 $('transaction-date').value = new Date().toISOString().slice(0, 10);
-
+//Will show the dashboard if a user is already signed in
 api('/api/me').then((user) => {
   if (user.username) loadPage();
 });

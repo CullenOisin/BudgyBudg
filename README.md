@@ -10,7 +10,7 @@ Lot's of influence from Jasleenkour002 on github, https://github.com/Jasleenkour
 
 **Current problems**
 
-- [ ]no login password with hash
+- [ ]no login password with hash ->SH
 
 - [ ]no make new account
 

@@ -1,3 +1,4 @@
+/*Main chunk intro page*/
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -14,31 +15,25 @@ header {
     font-size: 18px;
 }
 /*Login form and creits*/
-main {
-    max-width: 1050px;
-    margin: 0 auto 30px;
-    padding: 10px 25px 25px;
+main, footer {
+    align-content: center;
+    max-width: 800px;
+    background: #2B373D;
+    padding: 20px;
+    margin: 0 auto 20px;
+    border: 1px solid sandybrown;
 }
 
-footer {
-    text-align: center;
-    color: #89928c;
-    font-size: 13px;
+h1 {
+    color: sandybrown;
 }
-
-header h1 {
-    color: #254b3c;
-    font-size: 44px;
-    font-weight: 800;
-    margin-bottom: 8px;
-}
-
+/*form label*/
 label {
     display: block;
     margin: 10px 0;
     font-size: 14px;
 }
-
+/*text field and login form*/
 input, select {
     display: block;
     width: 100%;
@@ -55,7 +50,7 @@ input, select {
 input:focus, select:focus {
     border-color: #6c987e;
 }
-
+/*buttons looks*/
 button {
     padding: 11px 16px;
     margin: 5px 5px 5px 0;
@@ -82,27 +77,27 @@ button {
     background: #edf2ed;
     border: none;
 }
-
+/*Where buttons and forms are on page*/
 .buttons, .top-row, .filters {
     display: flex;
     justify-content: space-between;
     gap: 10px;
     align-items: center;
 }
-
+/*page layout for summary*/
 .summary {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
 }
-
+/*how it looks*/
     .summary p, .transaction {
         color: sandybrown;
         background: #445760;
         border: 1px solid sandybrown;
         padding: 10px;
     }
-
+/*divide dashboard into sections*/
 .box {
     border-top: 1px solid sandybrown;
     padding-top: 10px;
@@ -128,15 +123,15 @@ button {
     width: 0%;
     background: sandybrown;
 }
-
+/*feedback message color*/
 .message {
     color: #ffb3a7;
 }
-
+/*keep the second page hidden until login*/
 [hidden] {
     display: none !important;
 }
-
+/*for iphones and what-not*/
 @media (max-width: 520px) {
     .top-row, .filters {
         display: block;

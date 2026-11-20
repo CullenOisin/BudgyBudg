@@ -1,3 +1,4 @@
+//Load up libraries
 const express = require('express');
 const session = require('express-session');
 const fs = require('fs');
@@ -20,11 +21,11 @@ app.use(session({
   }
 }));
 app.use(express.static('public'));
-
+//Reads all the saved transactions
 function read() {
   return JSON.parse(fs.readFileSync(file));
 }
-
+//Saves transactions to the data file
 function save(data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
@@ -194,7 +195,7 @@ app.post('/api/login', async (req, res) => {
     });
   }
 });
-
+//Logout the user
 app.post('/api/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -207,7 +208,7 @@ app.post('/api/logout', (req, res) => {
     res.json({ message: 'Logged out successfully.' });
   });
 });
-
+//return user
 app.get('/api/me', (req, res) => {
   res.json({ username: req.session.username });
 });
@@ -223,6 +224,11 @@ app.post('/api/transactions', requireAuth, (req, res) => {
   id: require('crypto').randomUUID(),
   username: req.session.username
 };
+  transactions.push(item);
+  save(transactions);
+  res.json(item);
+});
+
 app.put('/api/transactions/:id', requireAuth, (req, res) => {
   const transactions = read();
 
@@ -279,10 +285,6 @@ app.delete('/api/transactions/:id', requireAuth, (req, res) => {
 
   res.json({ message: 'Transaction deleted successfully.' });
 });
-transactions.push(item);
-  save(transactions);
-  res.json(item);
-});
 
 app.get('/api/summary', requireAuth, (req, res) => {
   const month = new Date().toISOString().slice(0, 7);
@@ -291,7 +293,7 @@ app.get('/api/summary', requireAuth, (req, res) => {
   const expenses = items.filter((item) => item.type === 'expense').reduce((sum, item) => sum + Number(item.amount), 0);
   res.json({ income, expenses, net: income - expenses });
 });
-
+//Startup for the webpage
 //taken straight from github repo in README
 const PORT = process.env.PORT || 5000;
 
